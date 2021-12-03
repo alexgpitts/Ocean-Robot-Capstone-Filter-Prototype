@@ -54,8 +54,12 @@ def getDS(data):
 
 
 def getSH(data):
-    temp = []
-    for i in data: 
-        pass
+    newArr = list(data)
 
-    return temp
+    #walk through array of data and compute the RMS for all the data points. 
+    for i in newArr: 
+        frequency= i[0]
+        PSD = i[1]
+        RMS = math.sqrt(PSD)/(math.pow(2*math.pi*frequency, 2)) #from fft review. Might need revision. 
+        i.append(RMS)
+    return newArr
