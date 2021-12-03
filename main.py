@@ -7,17 +7,17 @@ from helpers import * # importing helper module
 
 
 def main():
-
+    i = 0
     #initial AS
-    data = [] #array for all the Frequency values (Hz)
-    y1 = [] #array for all the PSD values ((ms^(-2))^(2)/Hz)
+    data = [] #array for all the Frequency and PSD values (Hz) and ((ms^(-2))^(2)/Hz)
     with open('AS190520.csv', newline='') as csvfile:
         spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
         for row in spamreader:
-            if(len(row)>6 and row[0] != "Period" and float(row[0]) > 0):
+            if(len(row)>6 and row[0] != "Period" and float(row[0]) > 0 and i < 1026):
                 # print(row[0], "  ", row[7])
                 data.append([1/float(row[0]), float(row[7])])
                 # print(1/float(row[0]), "  ", float(row[7]))
+                i+=1
     
     sorted_date=sorted(data, key=lambda k: [k[0], k[1]])
     
