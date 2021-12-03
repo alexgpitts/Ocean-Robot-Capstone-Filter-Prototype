@@ -4,20 +4,32 @@ import matplotlib.pyplot as plt # importing module for creating a graph
 import csv
 from helpers import * # importing helper module
 
+import sys
 
 
-def main():
 
+
+
+def main(argv):
+    i = 0
     #initial AS
-    data = [] #array for all the Frequency values (Hz)
-    y1 = [] #array for all the PSD values ((ms^(-2))^(2)/Hz)
-    with open('AS190520.csv', newline='') as csvfile:
+    data = [] #2d array for all the x and y values. Format = [[frequency1, PSD1], [frequency2, PSD2], [frequency3, PSD3], ...., [frequency1, PSD1]]
+    
+    with open(argv[0], newline='') as csvfile:
         spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
         for row in spamreader:
-            if(len(row)>6 and row[0] != "Period" and float(row[0]) > 0):
-                # print(row[0], "  ", row[7])
+            if(len(row)<6):
+                continue
+            
+            if(row[0] == "Period" or float(row[0]) <= 0):
+                continue
+    
+            if(len(row)>6 and i < 1026):
                 data.append([1/float(row[0]), float(row[7])])
-                # print(1/float(row[0]), "  ", float(row[7]))
+                i+=1
+
+            else:
+                break
     
     sorted_date=sorted(data, key=lambda k: [k[0], k[1]])
     
@@ -57,4 +69,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv[1:])
